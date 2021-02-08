@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/media/alex/Новый том/Мои документы/_универ/параллельные вычисления/lab01/Lab01/main.c
+stdio.h
+-
+stdlib.h
+-
+
