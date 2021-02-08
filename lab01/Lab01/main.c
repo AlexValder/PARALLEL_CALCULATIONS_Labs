@@ -40,8 +40,12 @@ int main() {
 
     printf("SCALAR: %Lf\n", res);
 
-    if (vec1) free(vec1);
-    if (vec2) free(vec2);
+    if (vec1) {
+        free(vec1);
+    }
+    if (vec2) {
+        free(vec2);
+    }
 
     return 0;
 }
