@@ -5,3 +5,4 @@ WindowsOpenGL
 *.cmake
 Makefile
 CMakeFiles/
+build*/
