@@ -1,1 +1,0 @@
-/usr/bin/gcc  -fopenmp    CMakeFiles/Lab01.dir/main.c.o  -o Lab01 

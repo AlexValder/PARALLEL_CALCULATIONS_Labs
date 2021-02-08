@@ -1,3 +1,0 @@
-/media/alex/Новый том/Мои документы/_универ/параллельные вычисления/lab01/build-Lab01-Desktop-Default/CMakeFiles/rebuild_cache.dir
-/media/alex/Новый том/Мои документы/_универ/параллельные вычисления/lab01/build-Lab01-Desktop-Default/CMakeFiles/Lab01.dir
-/media/alex/Новый том/Мои документы/_универ/параллельные вычисления/lab01/build-Lab01-Desktop-Default/CMakeFiles/edit_cache.dir
