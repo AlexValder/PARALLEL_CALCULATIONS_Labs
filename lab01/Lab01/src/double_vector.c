@@ -1,4 +1,4 @@
-#include "double_vector.h"
+#include "../include/double_vector.h"
 
 
 lvalue_t dot_product(pvector_t vec1, pvector_t vec2, int size)
