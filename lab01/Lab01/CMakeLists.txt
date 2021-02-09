@@ -7,4 +7,8 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 
-add_executable("${PROJECT_NAME}" main.c vector_manipulations.c vector_manipulations.h)
+file(GLOB_RECURSE sources src/*.c src/*.h)
+add_executable(${PROJECT_NAME} ${sources})
+target_link_libraries(${PROJECT_NAME} m)
+target_compile_options(${PROJECT_NAME} PUBLIC -Wall)
+
