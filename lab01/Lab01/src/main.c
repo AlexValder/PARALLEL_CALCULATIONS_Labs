@@ -1,48 +1,32 @@
 #include "../include/app.h"
-#include "../include/double_vector.h"
-#include <time.h>
+#include <stdlib.h>
+#include <stdio.h>
 
-const static long long SIZE = ONE_GIB / sizeof(double) * 4; // in 1KB * in 1MB * in 1GB / sizeof(double)
 
 int main (int argc, char** argv)
 {
-    clock_t begin, end;
-    pvector_t vec1, vec2;
-    lvalue_t res;
-    int size;
+    PCONFIG config;
 
-    if (argc >= 2)
+    if (!load_config(&config, CONFIG_PATH))
     {
-        size = atoi(argv[1]);
+        fprintf(stderr, "No config file found");
+        return -1;
+    }
+
+    int res;
+
+    if (config->is_mp)
+    {
+        res = with_mp_main(config);
     }
     else
     {
-        size = SIZE;
+        res = no_mp_main(config);
     }
 
-    {
-        long long size_bytes = size * sizeof(value_t),
-                size_kib = size_bytes / 1024,
-                size_mib = size_kib / 1024;
-        printf("SIZE: %Ld byte(s) (%Ld KiB, %Ld MiB)\n", size_bytes, size_kib, size_mib);
-    }
 
-    begin = clock();
-    generate_vector(&vec1, size, MIN_VALUE, MAX_VALUE);
-    generate_vector(&vec2, size, MIN_VALUE, MAX_VALUE);
-    end = clock();
+    free(config->output_path);
+    free(config);
 
-    printf("Spent time generating 2 vectors: %lf s\n", (double)(end - begin)/CLOCKS_PER_SEC);
-
-    begin = clock();
-    res = dot_product(vec1, vec2, size);
-    end = clock();
-
-    printf("Spent time calculating dot product: %lf s\n", (double)(end - begin)/CLOCKS_PER_SEC);
-    printf("SCALAR: %Lf\n", res);
-
-    free(vec1);
-    free(vec2);
-
-    return 0;
+    return res;
 }
