@@ -43,19 +43,26 @@ bool load_config(PCONFIG *config, const char* config_path)
 
     fclose(config_file);
 
+    // at this point - we got amount of bytes\Mib\KiB\GiB in (*config)->size
+    // we need to modify it to represent the correct amount of doubles
+
     switch((*config)->mode)
     {
         case 'b': case 'B':
             fprintf(stdout, "CONFIG:\n\tsize: %Ld byte(s)\n", (*config)->size);
+            (*config)->size /= sizeof(value_t);
             break;
         case 'k': case 'K':
             fprintf(stdout, "CONFIG:\n\tsize: %Ld KiB\n", (*config)->size);
+            (*config)->size = ONE_KIB / sizeof(value_t) * (*config)->size;
             break;
         case 'm': case 'M':
             fprintf(stdout, "CONFIG:\n\tsize: %Ld MiB\n", (*config)->size);
+            (*config)->size = ONE_MIB / sizeof(value_t) * (*config)->size;
             break;
         case 'g': case 'G':
             fprintf(stdout, "CONFIG:\n\tsize: %Ld GiB\n", (*config)->size);
+            (*config)->size = ONE_GIB / sizeof(value_t) * (*config)->size;
             break;
         default:
             free((*config)->output_path);
@@ -65,7 +72,10 @@ bool load_config(PCONFIG *config, const char* config_path)
     }
 
     fprintf(stdout, "\tIS MP USED: %s\n", ((*config)->is_mp ? "true" : "false"));
-    fprintf(stdout, "\tTHREAD(S): %d\n\n", (*config)->thread_num);
+    if ((*config)->is_mp)
+    {
+        fprintf(stdout, "\tTHREAD(S): %d\n\n", (*config)->thread_num);
+    }
 
     return true;
 }
@@ -86,11 +96,11 @@ int with_mp_main(PCONFIG config)
 
 int shared_main(PCONFIG config, lvalue_t dot(PCONFIG, pvector_t, pvector_t))
 {
-    clock_t begin, end;
+    double begin, end;
     pvector_t vec1, vec2;
     lvalue_t res;
 
-    begin = clock();
+    begin = omp_get_wtime();
     if (!generate_vector(&vec1, config, MIN_VALUE, MAX_VALUE))
     {
         fprintf(stderr, "Failed to generate vector #1.\n");
@@ -102,16 +112,16 @@ int shared_main(PCONFIG config, lvalue_t dot(PCONFIG, pvector_t, pvector_t))
         fprintf(stderr, "Failed to generate vector #2.\n");
         return -1;
     }
-    end = clock();
+    end = omp_get_wtime();
 
-    printf("Spent time generating 2 vectors: %lf s\n", (double)(end - begin)/CLOCKS_PER_SEC);
+    printf("Spent time generating 2 vectors: %lf s\n", (end - begin));
 
 
-    begin = clock();
+    begin = omp_get_wtime();
     res = dot(config, vec1, vec2);
-    end = clock();
+    end = omp_get_wtime();
 
-    printf("Spent time calculating dot product: %lf s\n", (double)(end - begin)/CLOCKS_PER_SEC);
+    printf("Spent time calculating dot product: %lf s\n", end - begin);
     printf("SCALAR: %Lf\n", res);
 
     free(vec1);

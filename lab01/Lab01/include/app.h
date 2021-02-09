@@ -8,14 +8,13 @@
 #define ONE_GIB 1073741824 // 1024*1024*1024
 
 typedef struct {
-    char* output_path;
-    char mode;
-    char is_mp;
-    int thread_num;
-    long long size;
+    char* output_path; // unused yet
+    char mode;         // B, K, M, G - mode
+    char is_mp;        // is OMP used or not
+    int thread_num;    // number of threads
+    long long size;    // amount of doubles
 } CONFIG, *PCONFIG;
 
-const static long long SIZE = ONE_GIB / sizeof(double) * 4; // in 1KB * in 1MB * in 1GB / sizeof(double)
 const static char CONFIG_PATH[] = "config.txt";
 
 bool load_config(PCONFIG *config, const char* config_path);
