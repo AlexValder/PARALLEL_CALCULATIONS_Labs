@@ -11,6 +11,7 @@ typedef struct {
     char* output_path;
     char mode;
     char is_mp;
+    int thread_num;
     long long size;
 } CONFIG, *PCONFIG;
 

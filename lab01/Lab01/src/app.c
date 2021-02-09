@@ -26,15 +26,16 @@ bool load_config(PCONFIG *config, const char* config_path)
     if (!(*config)->output_path)
     {
         fclose(config_file);
-        free(config);
+        free(*config);
         fprintf(stderr, "Failed to allocate memery for config file path");
         return false;
     }
 
     char tmp;
-    fscanf(config_file, "%Ld %c %c %s",
+    fscanf(config_file, "SIZE=%Ld\nMODE=%c\nTHREADS=%d\nMP_ON=%c\nOUTPUT=%s\n",
                                 &(*config)->size,
                                 &(*config)->mode,
+                                &(*config)->thread_num,
                                 &tmp,
                                 (*config)->output_path);
 
@@ -57,20 +58,20 @@ bool load_config(PCONFIG *config, const char* config_path)
             fprintf(stdout, "CONFIG:\n\tsize: %Ld GiB\n", (*config)->size);
             break;
         default:
-            fclose(config_file);
             free((*config)->output_path);
-            free(config);
+            free(*config);
             fprintf(stderr, "Invalid mode: %c. Should either be b, B, k, K, m, M, g, G.\n", (*config)->mode);
             return false;
     }
 
-    fprintf(stdout, "\tIS MP USED: %s\n\n", ((*config)->is_mp ? "true" : "false"));
+    fprintf(stdout, "\tIS MP USED: %s\n", ((*config)->is_mp ? "true" : "false"));
+    fprintf(stdout, "\tTHREAD(S): %d\n\n", (*config)->thread_num);
 
     return true;
 }
 
 
-int shared_main(PCONFIG, lvalue_t dot(pvector_t, pvector_t, int));
+int shared_main(PCONFIG, lvalue_t dot(PCONFIG, pvector_t, pvector_t));
 
 int no_mp_main(PCONFIG config)
 {
@@ -83,7 +84,7 @@ int with_mp_main(PCONFIG config)
     return shared_main(config, MP_dot_product);
 }
 
-int shared_main(PCONFIG config, lvalue_t dot(pvector_t, pvector_t, int))
+int shared_main(PCONFIG config, lvalue_t dot(PCONFIG, pvector_t, pvector_t))
 {
     clock_t begin, end;
     pvector_t vec1, vec2;
@@ -107,7 +108,7 @@ int shared_main(PCONFIG config, lvalue_t dot(pvector_t, pvector_t, int))
 
 
     begin = clock();
-    res = dot(vec1, vec2, config->size);
+    res = dot(config, vec1, vec2);
     end = clock();
 
     printf("Spent time calculating dot product: %lf s\n", (double)(end - begin)/CLOCKS_PER_SEC);

@@ -2,22 +2,22 @@
 #include <omp.h>
 
 
-lvalue_t dot_product(pvector_t vec1, pvector_t vec2, int size)
+lvalue_t dot_product(PCONFIG config, pvector_t vec1, pvector_t vec2)
 {
     lvalue_t res = 0;
-    for (int i = 0; i < size; ++i)
+    for (int i = 0; i < config->size; ++i)
     {
         res += (lvalue_t)(vec1[i] * vec2[i]);
     }
     return sqrt(res);
 }
 
-lvalue_t MP_dot_product(pvector_t vec1, pvector_t vec2, int size)
+lvalue_t MP_dot_product(PCONFIG config, pvector_t vec1, pvector_t vec2)
 {
     omp_set_dynamic(0);
-    omp_set_num_threads(16);
+    omp_set_num_threads(config->thread_num);
     lvalue_t res = 0;
-    int i;
+    int i, size = config->size;
     #pragma omp parallel for shared(vec1, vec2, size) private(i) reduction(+:res)
     for (i = 0; i < size; ++i)
     {
@@ -29,21 +29,21 @@ lvalue_t MP_dot_product(pvector_t vec1, pvector_t vec2, int size)
 
 bool generate_vector(pvector_t* vec, PCONFIG config, value_t min, value_t max)
 {
-    int size;
+    long long size;
 
     switch (config->mode)
     {
         case 'b': case 'B':
-            size = config->size;
+            size = config->size / sizeof(value_t);
             break;
         case 'k': case 'K':
-            size = config->size * ONE_KIB;
+            size = ONE_KIB / sizeof(value_t) * config->size;
             break;
         case 'm': case 'M':
-            size = config->size * ONE_MIB;
+            size = ONE_MIB / sizeof(value_t) * config->size;
             break;
         case 'g': case 'G':
-            size = config->size * ONE_GIB;
+            size = ONE_GIB / sizeof(value_t) * config->size;
             break;
     }
 
@@ -51,7 +51,7 @@ bool generate_vector(pvector_t* vec, PCONFIG config, value_t min, value_t max)
 
     if (!*vec)
     {
-        fprintf(stderr, "Failed to allocate vector of size %d\n", size);
+        fprintf(stderr, "Failed to allocate vector of size %Ld\n", size);
         return false;
     }
 
