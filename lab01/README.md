@@ -47,15 +47,15 @@ OUTPUT=output.txt
 
 ## Вихідні файли програми
 
-*  Програма на С:
-     *   [include/app.h](Lab01/include/app.h)
-     *   [include/double_vector.h](Lab01/include/double_vector.h)
-     *   [src/main.c](Lab01/src/main.c)
-     *   [src/app.c](Lab01/src/app.c)
-     *   [src/double_vector.c](Lab01/src/double_vector.c)
+*    Програма на С:
+   *   [include/app.h](Lab01/include/app.h)
+   *   [include/double_vector.h](Lab01/include/double_vector.h)
+   *   [src/main.c](Lab01/src/main.c)
+   *   [src/app.c](Lab01/src/app.c)
+   *   [src/double_vector.c](Lab01/src/double_vector.c)
 
 *    Скрипт для створення графіку:
-     *   [create_graph.py](create_graph.py)
+   *   [create_graph.py](create_graph.py)
 
 *    Скрипт для автоматизації:
-     *   [runme.sh](runme.sh)
+   *   [runme.sh](runme.sh)
