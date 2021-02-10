@@ -2,13 +2,12 @@
 
 ## Постановка задачі. Використання OpenMP
 
-*   Напишіть програму на мові C для обчислення скалярного добутку двох векторів типу `double`.
+*  Напишіть програму на мові C для обчислення скалярного добутку двох векторів типу `double`.
 Розмір векторів виберіть таким чином, щоб вони займали половину оперативної пам'яті.
 
-*   Модифікуйте даний алгоритм за допомогою прагми OpenMP і виконайте програму з використанням різної кількості нитей.
+*  Модифікуйте даний алгоритм за допомогою прагми OpenMP і виконайте програму з використанням різної кількості нитей.
 
-*   Обчисліть час виконання і проаналізуйте отримані результати.
-
+*  Обчисліть час виконання і проаналізуйте отримані результати.
 
 ## Хід розв'язку
 
@@ -47,15 +46,15 @@ OUTPUT=output.txt
 
 ## Вихідні файли програми
 
-*    Програма на С:
-   *   [include/app.h](Lab01/include/app.h)
-   *   [include/double_vector.h](Lab01/include/double_vector.h)
-   *   [src/main.c](Lab01/src/main.c)
-   *   [src/app.c](Lab01/src/app.c)
-   *   [src/double_vector.c](Lab01/src/double_vector.c)
+*  Програма на С:
+   *  [include/app.h](Lab01/include/app.h)
+   *  [include/double_vector.h](Lab01/include/double_vector.h)
+   *  [src/main.c](Lab01/src/main.c)
+   *  [src/app.c](Lab01/src/app.c)
+   *  [src/double_vector.c](Lab01/src/double_vector.c)
 
-*    Скрипт для створення графіку:
-   *   [create_graph.py](create_graph.py)
+*  Скрипт для створення графіку:
+   *  [create_graph.py](create_graph.py)
 
-*    Скрипт для автоматизації:
-   *   [runme.sh](runme.sh)
+*  Скрипт для автоматизації:
+   *  [runme.sh](runme.sh)
