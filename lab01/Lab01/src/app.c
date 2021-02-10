@@ -23,7 +23,7 @@ bool load_config(PCONFIG *config, const char* config_path)
         return false;
     }
 
-    (*config)->output_path = (char*)malloc(50 * sizeof(char));
+    (*config)->output_path = (char*)malloc(51 * sizeof(char));
     if (!(*config)->output_path)
     {
         fclose(config_file);
@@ -33,7 +33,7 @@ bool load_config(PCONFIG *config, const char* config_path)
     }
 
     char tmp;
-    fscanf(config_file, "SIZE=%Ld\nMODE=%c\nTHREADS=%d\nMP_ON=%c\nOUTPUT=%s\n",
+    fscanf(config_file, "SIZE=%Ld\nMODE=%c\nTHREADS=%d\nMP_ON=%c\nOUTPUT=%50s\n",
                                 &(*config)->size,
                                 &(*config)->mode,
                                 &(*config)->thread_num,

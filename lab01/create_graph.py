@@ -1,7 +1,5 @@
 #!/usr/bin/python3
 
-import subprocess
-import os
 import matplotlib.pyplot as plt
 from typing import List
 
