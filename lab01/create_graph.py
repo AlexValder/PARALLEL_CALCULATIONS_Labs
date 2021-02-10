@@ -7,7 +7,7 @@ from typing import List
 
 # Collect info
 
-OUTPUT_PATH : str = "build-Lab01-Desktop-Default/output.txt"
+OUTPUT_PATH : str = "build/output.txt"
 output_file = open(OUTPUT_PATH, "r")
 raw_data : List[str] = output_file.read().split('\n')
 output_file.close()
