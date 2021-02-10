@@ -2,34 +2,22 @@
 
 import subprocess
 import os
+import matplotlib.pyplot as plt
+from typing import List
 
-# compile file
+# Collect info
 
-# print(subprocess.run(["bash"], text=True, input="cmake -S Lab01 -B build").stdout)
-# print()
-# print(subprocess.run(["bash"], text=True, input="make -C build").stdout)
-# print()
+OUTPUT_PATH : str = "build-Lab01-Desktop-Default/output.txt"
+output_file = open(OUTPUT_PATH, "r")
+raw_data : List[str] = output_file.read().split('\n')
+output_file.close()
 
-# run program
+actual_data : List[float] = [float(x) for x in raw_data if x != '']
 
-os.chdir("build-Lab01-Desktop-Default/")
+# Draw graph
 
-OUTPUT_PATH = "output.txt"
-CONFIG_PATH = "config.txt"
+plt.plot(actual_data, 'g-o', drawstyle='steps-mid', fillstyle='full')
+plt.savefig('OUTPUT.png')
+plt.show()
 
-CONFIG_MODIFICATORS = [2**x for x in range(1)]
-
-config_file = open(CONFIG_PATH, "w+")
-
-for cm in CONFIG_MODIFICATORS:
-    print(cm)
-    config_file.writelines(f"SIZE=256\nMODE=k\nTHREADS={cm}\nMP_ON=0\nOUTPUT=output.txt\n")
-    print(config_file.read())
-    #os.system("./Lab01")
-
-
-config_file.close()
-
-# output_file = open(OUTPUT_PATH, "r+")
-# print(output_file.read())
-# output_file.close()
+# plt.show()
