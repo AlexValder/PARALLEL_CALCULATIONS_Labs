@@ -3,13 +3,24 @@
 #include <stdio.h>
 
 
-int main (void)
+int main (int argc, char** argv)
 {
     PCONFIG config;
+    bool custom_config_file_read = false;
 
-    if (!load_config(&config, CONFIG_PATH))
+    if (argc == 2)
     {
-        fprintf(stderr, "Failed to parse config file.\n");
+        custom_config_file_read = true;
+        if (!load_config(&config, argv[1]))
+        {
+            custom_config_file_read = false;
+            fprintf(stderr, "Failed to parse config file %s. Attempting to parse default config file...\n", argv[1]);
+        }
+    }
+
+    if (!custom_config_file_read && !load_config(&config, CONFIG_PATH))
+    {
+        fprintf(stderr, "Failed to parse default config file.\n");
         return -1;
     }
 

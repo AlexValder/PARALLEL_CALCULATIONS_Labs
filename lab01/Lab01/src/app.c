@@ -7,6 +7,7 @@
 
 bool load_config(PCONFIG *config, const char* config_path)
 {
+    printf("CONFIG PATH: %s\n", config_path);
     FILE* config_file = fopen(config_path, "r");
     if (!config_file)
     {
@@ -67,7 +68,7 @@ bool load_config(PCONFIG *config, const char* config_path)
         default:
             free((*config)->output_path);
             free(*config);
-            fprintf(stderr, "Invalid mode: %c. Should either be b, B, k, K, m, M, g, G.\n", (*config)->mode);
+            fprintf(stderr, "Invalid mode: %c (%d). Should either be b, B, k, K, m, M, g, G.\n", (*config)->mode, (int)(*config)->mode);
             return false;
     }
 
@@ -78,6 +79,21 @@ bool load_config(PCONFIG *config, const char* config_path)
     }
 
     return true;
+}
+
+
+void log_time(PCONFIG config, double scalar_time)
+{
+    FILE* output_file = fopen(config->output_path, "a+");
+
+    if (!output_file)
+    {
+        fprintf(stderr, "Failed to write to output file.\n");
+        return;
+    }
+
+    fprintf(output_file, "%lf\n", scalar_time);
+    fclose(output_file);
 }
 
 
@@ -96,7 +112,7 @@ int with_mp_main(PCONFIG config)
 
 int shared_main(PCONFIG config, lvalue_t dot(PCONFIG, pvector_t, pvector_t))
 {
-    double begin, end;
+    double begin, end, scalar_time;
     pvector_t vec1, vec2;
     lvalue_t res;
 
@@ -114,15 +130,18 @@ int shared_main(PCONFIG config, lvalue_t dot(PCONFIG, pvector_t, pvector_t))
     }
     end = omp_get_wtime();
 
-    printf("Spent time generating 2 vectors: %lf s\n", (end - begin));
+    printf("Spent time generating 2 vectors: %lf s\n", end - begin);
 
 
     begin = omp_get_wtime();
     res = dot(config, vec1, vec2);
     end = omp_get_wtime();
+    scalar_time = end - begin;
 
-    printf("Spent time calculating dot product: %lf s\n", end - begin);
+    printf("Spent time calculating dot product: %lf s\n", scalar_time);
     printf("SCALAR: %Lf\n", res);
+
+    log_time(config, scalar_time);
 
     free(vec1);
     free(vec2);

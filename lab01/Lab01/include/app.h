@@ -19,6 +19,8 @@ const static char CONFIG_PATH[] = "config.txt";
 
 bool load_config(PCONFIG *config, const char* config_path);
 
+void log_time(PCONFIG config, double scalar_time);
+
 int no_mp_main(PCONFIG config);
 int with_mp_main(PCONFIG config);
 
