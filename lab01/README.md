@@ -46,6 +46,8 @@ OUTPUT=output.txt
 
 ## Вихідні файли програми
 
+[Посилання на GitHub](https://github.com/AlexValder/PARALLEL_CALCULATIONS_Labs/tree/master/lab01)
+
 *  Програма на С:
    *  [include/app.h](Lab01/include/app.h)
    *  [include/double_vector.h](Lab01/include/double_vector.h)
