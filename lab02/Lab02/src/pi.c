@@ -17,8 +17,7 @@ double f(double a)
 int main(int argc, char *argv[])
 {
     int n, myid, numprocs, i;
-    double PI25DT = 3.141592653589793238462643;
-    double mypi, pi, h, sum, x;
+    double mypi, pi, h, sum;
     double startwtime = 0.0, endwtime;
     int namelen;
     char processor_name[MPI_MAX_PROCESSOR_NAME];
@@ -41,7 +40,7 @@ int main(int argc, char *argv[])
     sum = 0.0;
     /* A slightly better approach starts from large i and works back */
     for (i = myid + 1; i <= n; i += numprocs) {
-        x = h * ((double) i - 0.5);
+        double x = h * ((double) i - 0.5);
         sum += f(x);
     }
     mypi = h * sum;
@@ -50,6 +49,9 @@ int main(int argc, char *argv[])
 
     if (myid == 0) {
         endwtime = MPI_Wtime();
+
+        const double PI25DT = 3.141592653589793238462643;
+
         printf("pi is approximately %.16f, Error is %.16f\n", pi, fabs(pi - PI25DT));
         printf("wall clock time = %f\n", endwtime - startwtime);
         fflush(stdout);
