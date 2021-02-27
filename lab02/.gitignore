@@ -1,0 +1,8 @@
+*.obj
+CMakeLists.txt.user
+CMakeCache.txt
+WindowsOpenGL
+*.cmake
+Makefile
+CMakeFiles/
+build*/
