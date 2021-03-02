@@ -39,6 +39,6 @@
 [Посилання на GitHub](https://github.com/AlexValder/PARALLEL_CALCULATIONS_Labs/tree/master/lab02)
 
 *  Програма на С:
-   *  [CMakeLists.txt](CMakeLists.txt)
-   *  [src/pi.c](src/pi.c)
+   *  [CMakeLists.txt](Lab02/CMakeLists.txt)
+   *  [src/pi.c](Lab02/src/pi.c)
 
